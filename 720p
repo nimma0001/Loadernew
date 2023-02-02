@@ -1,0 +1,18 @@
+echo downloading 72p
+yt-dlp -f 'bv*[height=720]+ba' $1 -P ytplaylist -o '%(title)s%(resolution)s.%(ext)s'
+#uplpading 480p
+cd ytplaylist && ls -1v | sed ':g' > playlist.txt
+input="playlist.txt"
+echo uploading 720p
+while IFS= read -r line
+do
+  echo "$line"
+  #uploading to gofile
+  curl https://pixeldrain.com/api/file/ -u:8e312a99-f6af-4e4d-bd43-04721db3fb61 --upload-file "$line"; \
+done < "$input"
+
+echo "done 720p"
+
+cd
+
+rm ytplaylist/*
